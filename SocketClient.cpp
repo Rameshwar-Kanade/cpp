@@ -36,12 +36,13 @@ int main()
     memset(&srv.sin_zero, 0, sizeof(srv.sin_zero));
 
     nRet = connect(nClientSocket, (struct sockaddr*)&srv, sizeof(srv));
-    if (nRet == SOCKET_ERROR)
+    if (nRet < 0)
     {
         cout << endl << "connect failed";
         WSACleanup();
         return (EXIT_FAILURE);
     }
+    
     else
     {
         cout << endl << "Connected to the server";
