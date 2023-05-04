@@ -103,11 +103,14 @@ int main()
         cout << endl <<"Started listen  to local port";
     }
 
+
     nMaxFD=nSocket;
     struct timeval tv;
     tv.tv_sec=1;
     tv.tv_usec=0;
 
+
+ while (1) {
     FD_ZERO(&fr);
     FD_ZERO(&fe);
     FD_ZERO(&fw);
@@ -118,15 +121,29 @@ int main()
    
 
     // keep waiting for new request and processed as per the request
-    while (1) {
+     
         nRet=select(nMaxFD +1 , &fr, &fw, &fe, &tv);
         if ( nRet > 0)
         {
             // when someone connects or communicates with a message over a dedicated connection
             cout << endl << "Data on port .....  Processing  now...";
+            if (FD_ISSET(nSocket,&fe))
+            {
+                 cout << endl << "There is an Exception .. Just get away from here";
+            }
+
+            if (FD_ISSET(nSocket,&fw))
+            {
+                 cout << endl << "ready to write something ";
+            }
+
+            if (FD_ISSET(nSocket,&fr))
+            {
+                 cout << endl << "ready to read.Something  new came up at the port";
+            }
             break;
 
-            ProcessTheNewRequest();
+           
         }
     else if (nRet==0)
     {
